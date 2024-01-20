@@ -1,8 +1,8 @@
 import { Module } from "@nestjs/common";
-import { mySqlCofig } from "./config.service";
+import { AppConfigService } from "./config.service";
 
 @Module({
-  providers: [...mySqlCofig()],
-  exports: [...mySqlCofig()],
+  providers: [AppConfigService],
+  exports: [AppConfigService],
 })
 export class SharedModule {}

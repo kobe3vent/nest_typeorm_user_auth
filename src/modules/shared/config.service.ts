@@ -2,8 +2,7 @@ import { isNil } from "lodash";
 import { ConfigService } from "@nestjs/config";
 import { Injectable } from "@nestjs/common";
 import * as dotenv from "dotenv";
-import { DataSource } from "typeorm";
-
+import { TypeOrmModuleOptions } from "@nestjs/typeorm";
 dotenv.config();
 
 @Injectable()
@@ -52,27 +51,25 @@ export class AppConfigService {
       jwtExpirationTime: this.getString("JWT_EXPIRATION_TIME"),
     };
   }
+
+  get postgresConfig(): TypeOrmModuleOptions {
+    const entities = [__dirname + "/../../modules/**/*.entity{.ts,.js}"];
+
+    return {
+      entities,
+      // migrations,
+      type: "postgres",
+      // name: 'default',
+      host: this.getString("POSTGRES_HOST"),
+      port: this.getNumber("POSTGRES_PORT"),
+      username: this.getString("POSTGRES_USER"),
+      password: this.getString("POSTGRES_PASSWORD"),
+      database: this.getString("POSTGRES_DATABASE"),
+      // migrationsRun: true,
+      synchronize: true,
+      //logging: this.getBoolean('ENABLE_ORM_LOGS'),
+      autoLoadEntities: true,
+      retryAttempts: 3,
+    };
+  }
 }
-
-export const mySqlCofig = () => {
-  return [
-    {
-      provide: "DATA_SOURCE",
-      useFactory: async () => {
-        const dataSource = new DataSource({
-          type: "mysql",
-          host: process.env.MYSQL_HOST,
-          port: parseInt(process.env.MYSQL_PORT as string),
-          username: process.env.MYSQL_USERNAME,
-          password: process.env.MYSQL_PASSWORD,
-          database: process.env.MYSQL_DATABASE,
-          entities: [__dirname + "/../**/*.entity{.ts,.js}"],
-          synchronize: true,
-          //logging: true,
-        });
-
-        return dataSource.initialize();
-      },
-    },
-  ];
-};

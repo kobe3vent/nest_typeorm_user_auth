@@ -1,11 +1,11 @@
-import { Inject, Injectable } from "@nestjs/common";
-import { USER_REPO } from "common/constants/repos";
+import { Injectable } from "@nestjs/common";
 import { TypeOrmCrudService } from "@rewiko/crud-typeorm";
 import { User } from "./entities/user.entity";
+import { InjectRepository } from "@nestjs/typeorm";
 
 @Injectable()
 export class UserService extends TypeOrmCrudService<User> {
-  constructor(@Inject(USER_REPO) repo) {
+  constructor(@InjectRepository(User) repo) {
     super(repo);
   }
 }

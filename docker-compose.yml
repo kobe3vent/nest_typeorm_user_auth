@@ -1,14 +1,20 @@
+version: "3"
 services:
-  database:
-    image: mysql:5.7
+  postgres:
+    image: postgres:14.2
+    restart: unless-stopped
     environment:
-      - MYSQL_DATABASE=app
-      - MYSQL_USER=server
-      - MYSQL_PASSWORD=staging
-      - MYSQL_ROOT_PASSWORD=devRO0T
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DATABASE=${POSTGRES_DATABASE}
+
     ports:
-      - "3306:3306"
+      - 5432:5432
     volumes:
-      - mysql-data:/data/db
+      - db:/var/lib/postgresql/data
+    env_file:
+      - .env
+
 volumes:
-  mysql-data:
+  db:
+    driver: local

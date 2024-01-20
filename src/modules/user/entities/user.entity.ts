@@ -2,7 +2,7 @@ import { Exclude } from "class-transformer";
 import { IsEmail } from "class-validator";
 import { AbstractEntity } from "common/entities/abstract.entity";
 import { generateHash } from "helpers/utils";
-import { Column, BeforeInsert, OneToMany, Entity } from "typeorm";
+import { Column, BeforeInsert, Entity } from "typeorm";
 
 export enum UserStatus {
   ACTIVE = "active",

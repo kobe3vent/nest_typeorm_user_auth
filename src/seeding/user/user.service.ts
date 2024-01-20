@@ -1,12 +1,12 @@
-import { Inject, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { User } from "modules/user/entities/user.entity";
 import { getData } from "./user.data";
-import { USER_REPO } from "common/constants/repos";
+import { InjectRepository } from "@nestjs/typeorm";
 
 @Injectable()
 export class UserSeederService {
   constructor(
-    @Inject(USER_REPO)
+    @InjectRepository(User)
     private readonly _userRepository
   ) {}
 
