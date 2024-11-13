@@ -40,6 +40,7 @@ async function start() {
     })
   );
   app.useGlobalFilters(new TypeOrmExceptionFilter());
+  app.useGlobalPipes(new ValidationPipe());
   app.enableCors();
   await app.listen(process.env.PORT || 3000);
   return app;
