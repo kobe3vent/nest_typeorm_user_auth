@@ -1,5 +1,19 @@
 version: "3"
 services:
+  api:
+    build:
+      context: ./
+      dockerfile: Dockerfile.local
+    volumes:
+      - ./:/usr/src/app
+      - node_modules_api:/src/node_modules
+    env_file:
+      - .env
+    ports:
+      - 3001:3001
+    depends_on:
+      - postgres
+
   postgres:
     image: postgres:14.2
     restart: unless-stopped
@@ -7,6 +21,7 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DATABASE=${POSTGRES_DATABASE}
+      - POSTGRES_HOST=${POSTGRES_HOST}
 
     ports:
       - 5432:5432
@@ -18,3 +33,4 @@ services:
 volumes:
   db:
     driver: local
+  node_modules_api:
