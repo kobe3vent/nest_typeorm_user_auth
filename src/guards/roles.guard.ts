@@ -4,25 +4,26 @@ import {
   Injectable,
   UnauthorizedException,
 } from "@nestjs/common";
-import { Reflector } from "@nestjs/core";
 import { getAction } from "@rewiko/crud";
 import { User, UserRole } from "modules/user/entities/user.entity";
 
 @Injectable()
 export class RolesGuard implements CanActivate {
-  constructor(private readonly _reflector: Reflector) {}
+  private readonly roles: string[];
+
+  constructor(roles: string[] = []) {
+    this.roles = roles;
+  }
 
   canActivate(context: ExecutionContext): boolean {
-    const roles = this._reflector.get<string[]>("roles", context.getHandler());
-
-    if (!roles) {
+    if (!this.roles) {
       return true;
     }
 
     const request = context.switchToHttp().getRequest();
     if (!request.user) throw new UnauthorizedException();
     const { role } = <User>request.user;
-    return roles.includes(role);
+    return this.roles.includes(role);
   }
 }
 

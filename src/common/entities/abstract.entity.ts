@@ -1,5 +1,6 @@
 import {
   CreateDateColumn,
+  DeleteDateColumn,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
@@ -8,15 +9,20 @@ export abstract class AbstractEntity {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
-  // @Exclude()
   @CreateDateColumn({
     type: "timestamp",
   })
   createdAt!: Date;
 
-  // @Exclude()
   @UpdateDateColumn({
     type: "timestamp",
+    select: false,
   })
   updatedAt!: Date;
+
+  @DeleteDateColumn({
+    type: "timestamp",
+    select: false,
+  })
+  deletedAt!: Date;
 }

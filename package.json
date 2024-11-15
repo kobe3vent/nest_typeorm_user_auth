@@ -7,11 +7,11 @@
   "private": true,
   "scripts": {
     "start": "rm -r dist/ | nest start",
-    "start:dev": " rm -r dist/ | nest start --watch",
+    "dev": "nest start --watch",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "tslint -p tsconfig.json --fix",
     "test": "jest",
-    "reinstall": "rm -r node_modules | yarn && yarn start:dev"
+    "reinstall": "rm -r node_modules | yarn && yarn dev"
   },
   "dependencies": {
     "@fastify/cors": "^8.3.0",
@@ -24,6 +24,7 @@
     "@nestjs/mapped-types": "*",
     "@nestjs/passport": "^9.0.0",
     "@nestjs/platform-fastify": "^9.0.0",
+    "@nestjs/throttler": "^6.2.1",
     "@nestjs/typeorm": "^9.0.0",
     "@ngneat/falso": "^7.1.1",
     "@rewiko/crud": "^5.1.12",

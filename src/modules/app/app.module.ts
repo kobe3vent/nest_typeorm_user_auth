@@ -7,9 +7,16 @@ import { SeederModule } from "seeding/seeder.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { AppConfigService } from "modules/shared/config.service";
 import { ConfigModule } from "@nestjs/config";
+import { ThrottlerModule } from "@nestjs/throttler";
 
 @Module({
   imports: [
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60000,
+        limit: 10,
+      },
+    ]),
     ConfigModule.forRoot({
       isGlobal: true,
     }),

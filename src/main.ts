@@ -23,6 +23,7 @@ CrudConfigService.load({
   },
 });
 import { AppModule } from "modules/app/app.module";
+import { ValidationPipe } from "@nestjs/common";
 
 dot.config();
 
@@ -40,9 +41,13 @@ async function start() {
     })
   );
   app.useGlobalFilters(new TypeOrmExceptionFilter());
-  app.useGlobalPipes(new ValidationPipe());
-  app.enableCors();
-  await app.listen(process.env.PORT || 3000);
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+  app.enableCors({
+    origin: "*",
+    allowedHeaders: ["*"],
+    methods: ["GET", "POST", "DELETE", "PATCH", "OPTIONS"],
+  });
+  await app.listen(process.env.PORT ?? 3000, "0.0.0.0");
   return app;
 }
 start();
